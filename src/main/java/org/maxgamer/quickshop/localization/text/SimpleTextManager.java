@@ -533,7 +533,7 @@ public class SimpleTextManager implements TextManager, Reloadable {
         @NotNull
         public List<String> forLocale() {
             if (sender instanceof Player) {
-                return forLocale(((Player) sender).getLocale());
+                return forLocale(MsgUtil.getPlayerLocale((Player) sender));
             } else {
                 return forLocale(MsgUtil.getDefaultGameLanguageCode());
             }
@@ -652,7 +652,7 @@ public class SimpleTextManager implements TextManager, Reloadable {
         @NotNull
         public String forLocale() {
             if (sender instanceof Player) {
-                return forLocale(((Player) sender).getLocale());
+                return forLocale(MsgUtil.getPlayerLocale((Player) sender));
             } else {
                 return forLocale(MsgUtil.getDefaultGameLanguageCode());
             }

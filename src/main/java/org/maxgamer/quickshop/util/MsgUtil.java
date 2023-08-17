@@ -21,6 +21,7 @@ package org.maxgamer.quickshop.util;
 
 import com.google.common.collect.Maps;
 import lombok.Getter;
+import lv.side.lang.api.LangAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -110,12 +111,12 @@ public class MsgUtil {
                         try {
                             ItemStack data = Util.deserialize(msg.getHoverItemStr());
                             if (data == null) {
-                                MsgUtil.sendDirectMessage(player, msg.getMessage(player.getLocale()));
+                                MsgUtil.sendDirectMessage(player, msg.getMessage(getPlayerLocale(player)));
                             } else {
-                                plugin.getQuickChat().sendItemHologramChat(player, msg.getMessage(player.getLocale()), data);
+                                plugin.getQuickChat().sendItemHologramChat(player, msg.getMessage(getPlayerLocale(player)), data);
                             }
                         } catch (InvalidConfigurationException e) {
-                            MsgUtil.sendDirectMessage(p.getPlayer(), msg.getMessage(player.getLocale()));
+                            MsgUtil.sendDirectMessage(p.getPlayer(), msg.getMessage(getPlayerLocale(player)));
                         }
                         }
                 }
@@ -399,7 +400,7 @@ public class MsgUtil {
         } else {
             Player player = p.getPlayer();
             if (player != null) {
-                String locale = player.getLocale();
+                String locale = getPlayerLocale(player);
                 String hoverItemStr = shopTransactionMessage.getHoverItemStr();
                 if (hoverItemStr != null) {
                     try {
@@ -436,7 +437,7 @@ public class MsgUtil {
         } else {
             Player player = p.getPlayer();
             if (player != null) {
-                String locale = player.getLocale();
+                String locale = getPlayerLocale(player);
                 String hoverItemStr = shopTransactionMessageContainer.getHoverItemStr();
                 if (hoverItemStr != null) {
                     try {
@@ -787,5 +788,17 @@ public class MsgUtil {
         } catch (Exception exception) {
             return false;
         }
+    }
+
+    public static String getPlayerLocale(Player player) {
+        String lang = LangAPI.getPlayerSelected(player.getName());
+        if (lang == null)
+            lang = LangAPI.getDefaultLang();
+
+        if (lang.equalsIgnoreCase("lv")) {
+            return "es_es";
+        }
+
+        return "en_us";
     }
 }

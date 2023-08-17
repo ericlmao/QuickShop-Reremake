@@ -40,6 +40,7 @@ authors:
   - efekurbann
   - tdiant
 description: Economy Shops plugin
+depend: [SideLang]
 softdepend:
   - Vault
   - Reserve

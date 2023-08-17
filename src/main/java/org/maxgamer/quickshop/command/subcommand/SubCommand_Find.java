@@ -126,10 +126,13 @@ public class SubCommand_Find implements CommandHandler<Player> {
             for (Map.Entry<Shop, Double> shopDoubleEntry : sortedShops) {
                 Shop shop = shopDoubleEntry.getKey();
                 Location location = shop.getLocation();
+
+                String locale = MsgUtil.getPlayerLocale(sender);
+
                 //  "nearby-shop-entry": "&a- Info:{0} &aPrice:&b{1} &ax:&b{2} &ay:&b{3} &az:&b{4} &adistance: &b{5} &ablock(s)"
                 stringBuilder.append(plugin.text().of(sender, "nearby-shop-entry",
-                        toLegacyText(shop.getSignText(sender.getLocale()).get(1).getComponents()),
-                        toLegacyText(shop.getSignText(sender.getLocale()).get(3).getComponents()),
+                        toLegacyText(shop.getSignText(locale).get(1).getComponents()),
+                        toLegacyText(shop.getSignText(locale).get(3).getComponents()),
                         String.valueOf(location.getBlockX()),
                         String.valueOf(location.getBlockY()),
                         String.valueOf(location.getBlockZ()),

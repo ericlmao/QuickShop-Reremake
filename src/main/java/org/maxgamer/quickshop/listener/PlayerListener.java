@@ -405,7 +405,8 @@ public class PlayerListener extends AbstractQSListener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent e) {
-        Util.debugLog("Player " + e.getPlayer().getName() + " using locale " + e.getPlayer().getLocale() + ": " + plugin.text().of(e.getPlayer(), "file-test").forLocale());
+        String locale = MsgUtil.getPlayerLocale(e.getPlayer());
+        Util.debugLog("Player " + e.getPlayer().getName() + " using locale " + locale + ": " + plugin.text().of(e.getPlayer(), "file-test").forLocale());
         PlayerFinder.updateIfNeeded(e.getPlayer());
         // Notify the player any messages they were sent
         if (plugin.getConfig().getBoolean("shop.auto-fetch-shop-messages")) {
@@ -414,12 +415,6 @@ public class PlayerListener extends AbstractQSListener {
                             MsgUtil.flush(PlayerFinder.findOfflinePlayerByUUID(e.getPlayer().getUniqueId()))
                     , 50);
         }
-    }
-
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onJoin(PlayerLocaleChangeEvent e) {
-        Util.debugLog("Player " + e.getPlayer().getName() + " using new locale " + e.getLocale() + ": " + plugin.text().of(e.getPlayer(), "file-test").forLocale(e.getLocale()));
-
     }
 
     @EventHandler(ignoreCancelled = true)
