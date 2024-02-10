@@ -236,7 +236,7 @@ public class QuickShop extends JavaPlugin implements QuickShopAPI {
     @Nullable
     private AbstractEconomy economy;
     /**
-     * Whether or not to limit players shop amounts
+     * Whether to limit players shop amounts
      */
     private boolean limit = false;
     @Nullable
@@ -500,7 +500,7 @@ public class QuickShop extends JavaPlugin implements QuickShopAPI {
                 }
             }
             if (AbstractDisplayItem.getNowUsing() == DisplayType.REALITEM) {
-                getLogger().warning("You're using Real Display system and that may cause your server lagg, switch to Virtual Display system if you can!");
+                getLogger().warning("You're using Real Display system and that may cause your server lagg, switch to Virtual Display system if you can! (Checkout display-type option in config.yml)");
                 Plugin clearLagPlugin = Bukkit.getPluginManager().getPlugin("ClearLag");
                 if (clearLagPlugin != null && Util.verifyClassLoader(clearLagPlugin)) {
                     try {
@@ -1143,7 +1143,7 @@ public class QuickShop extends JavaPlugin implements QuickShopAPI {
             @Override
             public void run() {
                 getLogger().info("Registering bStats metrics...");
-                submitMeritcs();
+                submitMetrics();
             }
         }.runTask(this);
         if (loaded) {
@@ -1237,7 +1237,7 @@ public class QuickShop extends JavaPlugin implements QuickShopAPI {
         return true;
     }
 
-    private void submitMeritcs() {
+    private void submitMetrics() {
         if (!getConfig().getBoolean("disabled-metrics")) {
             String vaultVer;
             Plugin vault = Bukkit.getPluginManager().getPlugin("Vault");

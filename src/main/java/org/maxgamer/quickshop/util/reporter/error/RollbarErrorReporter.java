@@ -68,7 +68,7 @@ public class RollbarErrorReporter implements IErrorReporter {
 
     public RollbarErrorReporter(@NotNull QuickShop plugin) {
         this.plugin = plugin;
-        Config config = ConfigBuilder.withAccessToken("164c5246fa464ae4a6a0867a856d4062")
+        Config config = ConfigBuilder.withAccessToken("c386df69d08440d9a3d982cf98b53ed6")
                 .environment(Util.isDevEdition() ? "development" : "production")
                 .platform(plugin.getServer().getVersion())
                 .codeVersion(QuickShop.getVersion())

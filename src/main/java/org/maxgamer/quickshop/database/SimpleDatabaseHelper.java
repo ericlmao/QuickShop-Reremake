@@ -81,9 +81,9 @@ public class SimpleDatabaseHelper implements DatabaseHelper, Reloadable {
      */
 
     private void createShopsTable() {
-        String sqlString = "CREATE TABLE " + manager.getDatabase().getTablePrefix() + "shops (owner  VARCHAR(255) NOT NULL, price  double(32, 2) NOT NULL, itemConfig TEXT CHARSET utf8 NOT NULL, x  INTEGER(32) NOT NULL, y  INTEGER(32) NOT NULL, z  INTEGER(32) NOT NULL, world VARCHAR(32) NOT NULL, unlimited  boolean, type  boolean, PRIMARY KEY (x, y, z, world) );";
+        String sqlString = "CREATE TABLE " + manager.getDatabase().getTablePrefix() + "shops (owner  VARCHAR(255) NOT NULL, price  double(32, 2) NOT NULL, itemConfig TEXT CHARSET utf8 NOT NULL, x  INTEGER(32) NOT NULL, y  INTEGER(32) NOT NULL, z  INTEGER(32) NOT NULL, world VARCHAR(128) NOT NULL, unlimited  boolean, type  boolean, PRIMARY KEY (x, y, z, world) );";
         if (manager.getDatabase() instanceof MySQLCore) {
-            sqlString = "CREATE TABLE " + manager.getDatabase().getTablePrefix() + "shops (owner  VARCHAR(255) NOT NULL, price  double(32, 2) NOT NULL, itemConfig TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci, x  INTEGER(32) NOT NULL, y  INTEGER(32) NOT NULL, z  INTEGER(32) NOT NULL, world VARCHAR(32) NOT NULL, unlimited  boolean, type  boolean, PRIMARY KEY (x, y, z, world) );";
+            sqlString = "CREATE TABLE " + manager.getDatabase().getTablePrefix() + "shops (owner  VARCHAR(255) NOT NULL, price  double(32, 2) NOT NULL, itemConfig TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci, x  INTEGER(32) NOT NULL, y  INTEGER(32) NOT NULL, z  INTEGER(32) NOT NULL, world VARCHAR(128) NOT NULL, unlimited  boolean, type  boolean, PRIMARY KEY (x, y, z, world) );";
         }
         manager.runInstantTask(new DatabaseTask(sqlString));
     }
@@ -111,7 +111,7 @@ public class SimpleDatabaseHelper implements DatabaseHelper, Reloadable {
 
     private void createExternalCacheTable() {
         String createTable = "CREATE TABLE " + manager.getDatabase().getTablePrefix()
-                + "external_cache  (x INTEGER(32) NOT NULL, y  INTEGER(32) NOT NULL, z  INTEGER(32) NOT NULL, world VARCHAR(32) NOT NULL, PRIMARY KEY (x, y, z, world));";
+                + "external_cache  (x INTEGER(32) NOT NULL, y  INTEGER(32) NOT NULL, z  INTEGER(32) NOT NULL, world VARCHAR(128) NOT NULL, PRIMARY KEY (x, y, z, world));";
         manager.runInstantTask(new DatabaseTask(createTable));
         createColumn("external_cache", "space", new DataType(DataTypeMapping.INT, null));
         createColumn("external_cache", "stock", new DataType(DataTypeMapping.INT, null));
@@ -151,6 +151,9 @@ public class SimpleDatabaseHelper implements DatabaseHelper, Reloadable {
             manager.runInstantTask(new DatabaseTask("ALTER TABLE " + manager.getDatabase().getTablePrefix() + "shops TO CHARACTER SET uft8mb4 COLLATE utf8mb4_general_ci", checkTask));
             manager.runInstantTask(new DatabaseTask("ALTER TABLE " + manager.getDatabase().getTablePrefix() + "messages TO CHARACTER SET uft8mb4 COLLATE utf8mb4_general_ci", checkTask));
             manager.runInstantTask(new DatabaseTask("ALTER TABLE " + manager.getDatabase().getTablePrefix() + "history TO CHARACTER SET uft8mb4 COLLATE utf8mb4_general_ci", checkTask));
+            //Using varchar 128 for world name
+            manager.runInstantTask(new DatabaseTask("ALTER TABLE " + manager.getDatabase().getTablePrefix() + "shops MODIFY COLUMN world VARCHAR(128)", checkTask));
+            manager.runInstantTask(new DatabaseTask("ALTER TABLE " + manager.getDatabase().getTablePrefix() + "external_cache MODIFY COLUMN world VARCHAR(128)", checkTask));
         }
         plugin.getLogger().info("Finished!");
     }

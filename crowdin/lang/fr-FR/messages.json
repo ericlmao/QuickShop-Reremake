@@ -70,7 +70,7 @@
   "unknown-owner": "Inconnu",
   "owner-bypass-check": "&eVérifications passées. Echange réussi ! (Tu es propriétaire de la boutique!)",
   "reached-maximum-can-create": "&cTu as atteint ton nombre de coffre de boutiques maximal : {0}/{1}!",
-  "reached-maximum-other-can-hold": "&cTarget player has reached the maximum of {0}/{1} shops!",
+  "reached-maximum-other-can-hold": "&cLe joueur ciblé a atteint le maximum de {0}/{1} boutiques !",
   "restricted-prices": "&cPrix restreints {0}: min {1}, max {2}",
   "no-enough-money-to-keep-shops": "&cTu n'as plus assez d'argent pour garder tes boutiques! Tous tes coffres ont été supprimés...",
   "nothing-to-flush": "&aAucun nouveau message.",

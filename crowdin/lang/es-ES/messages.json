@@ -70,7 +70,7 @@
   "unknown-owner": "Desconocido",
   "owner-bypass-check": "&ePasado todos los controles. ¡Comercio exitoso! (¡Ahora eres el propietario de la tienda!)",
   "reached-maximum-can-create": "&c¡Ya has creado un máximo de {0}/{1} tiendas!",
-  "reached-maximum-other-can-hold": "&cTarget player has reached the maximum of {0}/{1} shops!",
+  "reached-maximum-other-can-hold": "&cEl jugador objetivo ha alcanzado el máximo de {0}/{1} tiendas!",
   "restricted-prices": "&cPrecio restringido de {0}: Mín. {1}, Máx. {2}",
   "no-enough-money-to-keep-shops": "&c¡No dispones del suficiente dinero para mantener tus tiendas! Todas tus tiendas han sido eliminadas...",
   "nothing-to-flush": "&aNo tienes mensajes de tienda nuevos.",

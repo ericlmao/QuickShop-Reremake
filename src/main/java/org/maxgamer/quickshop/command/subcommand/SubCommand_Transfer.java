@@ -133,7 +133,7 @@ public class SubCommand_Transfer implements CommandHandler<Player> {
             }
             int max = plugin.getShopLimit(checkingPlayer);
             if (owned + increment <= max) {
-                plugin.text().of(commandSender, "reached-maximum-other-can-hold", String.valueOf(owned), String.valueOf(max)).send();
+                plugin.text().of(commandSender, "reached-maximum-other-can-hold", String.valueOf(owned + increment), String.valueOf(max)).send();
                 return false;
             }
         }

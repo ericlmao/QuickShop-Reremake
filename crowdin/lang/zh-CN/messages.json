@@ -70,7 +70,7 @@
   "unknown-owner": "未知所有者",
   "owner-bypass-check": "&e已绕过所有检查并完成交易（因为你是商店所有者）！",
   "reached-maximum-can-create": "&c你创建的商店数量达到上限：{0}/{1}",
-  "reached-maximum-other-can-hold": "&cTarget player has reached the maximum of {0}/{1} shops!",
+  "reached-maximum-other-can-hold": "&c目标玩家已达到最大商店数量 {0}/{1} 个商店！",
   "restricted-prices": "&c物品 {0} 的价格限制为 {1}（包含）到{2}（包含）",
   "no-enough-money-to-keep-shops": "&c你没有足够的金钱去维持你商店的运营！所有商店已被移除...",
   "nothing-to-flush": "&a你没有新的商店消息",

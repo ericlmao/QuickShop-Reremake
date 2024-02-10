@@ -61,26 +61,10 @@ import java.util.logging.Level;
 @AllArgsConstructor
 public class BungeeQuickChat implements QuickChat {
     private final QuickShop plugin;
+    private final String[] indexStrCache = {"{0}", "{1}", "{2}", "{3}", "{4}", "{5}", "{6}", "{7}", "{8}", "{9}"};
 
     public static BaseComponent[] fromLegacyText(String text) {
         return TextComponent.fromLegacyText(text, net.md_5.bungee.api.ChatColor.RESET);
-    }
-
-    @Override
-    public void send(@NotNull CommandSender receiver, @Nullable QuickComponent component) {
-        if (component == null) {
-            return;
-        }
-        if (component.get() instanceof BaseComponent[]) {
-            receiver.spigot().sendMessage((BaseComponent[]) component.get());
-            return;
-        }
-        if (component.get() instanceof BaseComponent) {
-            receiver.spigot().sendMessage((BaseComponent) component.get());
-            return;
-        }
-        Util.debugLog("Illegal component " + component.get().getClass().getName() + " sending to " + this.getClass().getName() + " processor, trying force sending.");
-
     }
 
     public static String toLegacyText(BaseComponent[] components) {
@@ -109,6 +93,23 @@ public class BungeeQuickChat implements QuickChat {
     }
 
     @Override
+    public void send(@NotNull CommandSender receiver, @Nullable QuickComponent component) {
+        if (component == null) {
+            return;
+        }
+        if (component.get() instanceof BaseComponent[]) {
+            receiver.spigot().sendMessage((BaseComponent[]) component.get());
+            return;
+        }
+        if (component.get() instanceof BaseComponent) {
+            receiver.spigot().sendMessage((BaseComponent) component.get());
+            return;
+        }
+        Util.debugLog("Illegal component " + component.get().getClass().getName() + " sending to " + this.getClass().getName() + " processor, trying force sending.");
+
+    }
+
+    @Override
     public void send(@NotNull CommandSender receiver, @Nullable String message) {
         if (StringUtils.isEmpty(message)) {
             return;
@@ -120,7 +121,6 @@ public class BungeeQuickChat implements QuickChat {
     public void sendItemHologramChat(@NotNull Player player, @NotNull String text, @NotNull ItemStack itemStack) {
         sendItemHologramChat(player, text, itemStack, false);
     }
-
 
     private BungeeComponentBuilder appendItemHoloChat(@Nullable String itemJson, @NotNull String message) {
         BungeeComponentBuilder builder = new BungeeComponentBuilder();
@@ -177,7 +177,8 @@ public class BungeeQuickChat implements QuickChat {
             } else {
                 player.spigot().sendMessage(result);
             }
-        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException | InstantiationException e) {
+        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException |
+                 InstantiationException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to process chat component", e);
             player.spigot().sendMessage(errorComponent);
         }
@@ -226,107 +227,6 @@ public class BungeeQuickChat implements QuickChat {
         }
     }
 
-
-    public static class BungeeComponentBuilder {
-        private final ComponentBuilder builder;
-
-        public BungeeComponentBuilder() {
-            builder = new ComponentBuilder("");
-            builder.removeComponent(0);
-        }
-
-        public BungeeComponentBuilder append(BaseComponent component) {
-            if (builder.getCursor() == -1) {
-                builder.append(component, ComponentBuilder.FormatRetention.EVENTS);
-            } else {
-                builder.append(component);
-            }
-            return this;
-        }
-
-
-        public BungeeComponentBuilder append(BaseComponent[] components) {
-            for (BaseComponent component : components) {
-                append(component);
-            }
-            return this;
-        }
-
-        public BungeeComponentBuilder append(String text) {
-            if (builder.getCursor() == -1) {
-                builder.append(text, ComponentBuilder.FormatRetention.EVENTS);
-            } else {
-                builder.append(text);
-            }
-            return this;
-        }
-
-        public BungeeComponentBuilder appendLegacy(String... text) {
-            if (text == null || text.length == 0) {
-                return this;
-            }
-            StringBuilder stringBuilder = new StringBuilder(text[0]);
-            for (int i = 1; i < text.length; i++) {
-                stringBuilder.append(text[i]);
-            }
-            builder.append(fromLegacyText(stringBuilder.toString()), ComponentBuilder.FormatRetention.EVENTS);
-            return this;
-        }
-
-        public BungeeComponentBuilder appendLegacyAndItem(String left, BaseComponent[] itemsComponent, String right) {
-            String uuidStr = UUID.randomUUID().toString();
-            BaseComponent[] components = fromLegacyText(left + uuidStr + right);
-            boolean centerFound = false;
-            for (BaseComponent component : components) {
-                //Find center value
-                if (!centerFound && component.toPlainText().contains(uuidStr)) {
-                    centerFound = true;
-                    String[] text = ((TextComponent) component).getText().split(uuidStr, 2);
-                    TextComponent leftComponent = new TextComponent(text[0]);
-                    leftComponent.copyFormatting(component);
-                    TextComponent rightComponent = new TextComponent(text[1]);
-                    rightComponent.copyFormatting(component);
-                    for (BaseComponent baseComponent : itemsComponent) {
-                        leftComponent.addExtra(baseComponent);
-                    }
-                    builder.append(leftComponent, ComponentBuilder.FormatRetention.EVENTS);
-                    builder.append(rightComponent, ComponentBuilder.FormatRetention.EVENTS);
-                } else {
-                    builder.append(component, ComponentBuilder.FormatRetention.EVENTS);
-                }
-            }
-            return this;
-        }
-
-        public BungeeComponentBuilder appendLegacy(String text) {
-            builder.append(fromLegacyText(text), ComponentBuilder.FormatRetention.EVENTS);
-            return this;
-        }
-
-        public BungeeComponentBuilder event(ClickEvent clickEvent) {
-            builder.event(clickEvent);
-            return this;
-        }
-
-        public BungeeComponentBuilder event(HoverEvent hoverEvent) {
-            builder.event(hoverEvent);
-            return this;
-        }
-
-        public BungeeComponentBuilder reset() {
-            builder.reset();
-            return this;
-        }
-
-        public BaseComponent[] create() {
-            return builder.create();
-        }
-
-        public ComponentBuilder color(net.md_5.bungee.api.ChatColor color) {
-            return builder.color(color);
-        }
-    }
-
     @Override
     public @NotNull QuickComponent getItemTextComponent(@NotNull Player player, @NotNull ItemStack itemStack, @NotNull String normalText) {
         TextComponent errorComponent = new TextComponent(plugin.text().of(player, "menu.item-holochat-error").forLocale());
@@ -348,8 +248,6 @@ public class BungeeQuickChat implements QuickChat {
         return new QuickComponentImpl(component);
 
     }
-
-    private final String[] indexStrCache = {"{0}", "{1}", "{2}", "{3}", "{4}", "{5}", "{6}", "{7}", "{8}", "{9}"};
 
     public String getIndexStr(int index) {
         return index <= 9 ? indexStrCache[index] : "{" + index + "}";
@@ -421,5 +319,154 @@ public class BungeeQuickChat implements QuickChat {
             component.setHoverEvent(hoverEvent);
         }
         receiver.spigot().sendMessage(components);
+    }
+
+    public static class BungeeComponentBuilder {
+        private static final boolean isUsingResetCommitVersion = Util
+                .isMethodAvailable(BaseComponent.class, "isReset");
+        private final ComponentBuilder builder;
+
+        public BungeeComponentBuilder() {
+            builder = new ComponentBuilder("");
+            builder.removeComponent(0);
+        }
+
+        public BungeeComponentBuilder append(BaseComponent component) {
+            if (builder.getCursor() == -1) {
+                append(component, ComponentBuilder.FormatRetention.EVENTS);
+            } else {
+                append(component, ComponentBuilder.FormatRetention.ALL);
+            }
+            return this;
+        }
+
+
+        public BungeeComponentBuilder append(BaseComponent[] components) {
+            for (BaseComponent component : components) {
+                append(component);
+            }
+            return this;
+        }
+
+        public BungeeComponentBuilder append(String text) {
+            if (builder.getCursor() == -1) {
+                append(text, ComponentBuilder.FormatRetention.EVENTS);
+            } else {
+                append(text, ComponentBuilder.FormatRetention.ALL);
+            }
+            return this;
+        }
+
+        public BungeeComponentBuilder appendLegacy(String... text) {
+            if (text == null || text.length == 0) {
+                return this;
+            }
+            StringBuilder stringBuilder = new StringBuilder(text[0]);
+            for (int i = 1; i < text.length; i++) {
+                stringBuilder.append(text[i]);
+            }
+            append(fromLegacyText(stringBuilder.toString()), ComponentBuilder.FormatRetention.EVENTS);
+            return this;
+        }
+
+        public BungeeComponentBuilder appendLegacyAndItem(String left, BaseComponent[] itemsComponent, String right) {
+            String uuidStr = UUID.randomUUID().toString();
+            BaseComponent[] components = fromLegacyText(left + uuidStr + right);
+            boolean centerFound = false;
+            for (BaseComponent component : components) {
+                //Find center value
+                if (!centerFound && component.toPlainText().contains(uuidStr)) {
+                    centerFound = true;
+                    String[] text = ((TextComponent) component).getText().split(uuidStr, 2);
+                    TextComponent leftComponent = new TextComponent(text[0]);
+                    leftComponent.copyFormatting(component);
+                    TextComponent rightComponent = new TextComponent(text[1]);
+                    rightComponent.copyFormatting(component);
+                    for (BaseComponent baseComponent : itemsComponent) {
+                        leftComponent.addExtra(baseComponent);
+                    }
+                    append(leftComponent, ComponentBuilder.FormatRetention.EVENTS);
+                    append(rightComponent, ComponentBuilder.FormatRetention.EVENTS);
+                } else {
+                    append(component, ComponentBuilder.FormatRetention.EVENTS);
+                }
+            }
+            return this;
+        }
+
+
+        public BungeeComponentBuilder appendLegacy(String text) {
+            append(fromLegacyText(text), ComponentBuilder.FormatRetention.EVENTS);
+            return this;
+        }
+
+        public BungeeComponentBuilder event(ClickEvent clickEvent) {
+            builder.event(clickEvent);
+            return this;
+        }
+
+        public BungeeComponentBuilder event(HoverEvent hoverEvent) {
+            builder.event(hoverEvent);
+            return this;
+        }
+
+        public BungeeComponentBuilder reset() {
+            builder.reset();
+            return this;
+        }
+
+        public BaseComponent[] create() {
+            return builder.create();
+        }
+
+        public ComponentBuilder color(net.md_5.bungee.api.ChatColor color) {
+            return builder.color(color);
+        }
+
+        /**
+         * The dump method for fixing append always care about reset
+         */
+        //dump start
+        private ComponentBuilder append(BaseComponent component, ComponentBuilder.FormatRetention retention) {
+            if (!isUsingResetCommitVersion) {
+                builder.append(component, retention);
+                return builder;
+            }
+
+            List<BaseComponent> parts = builder.getParts();
+            BaseComponent previous = (parts.isEmpty()) ? null : parts.get(parts.size() - 1);
+
+            if (component.isReset() && retention == ComponentBuilder.FormatRetention.ALL) {
+                retention = ComponentBuilder.FormatRetention.EVENTS;
+            }
+
+            //Hacky method to replace dummy components
+            if (previous == null && builder.getCursor() == -1) {
+                previous = new TextComponent("");
+                builder.append(previous);
+            }
+
+            if (previous != null && (!component.isReset() || retention == ComponentBuilder.FormatRetention.EVENTS)) {
+                component.copyFormatting(previous, retention, false);
+                parts.add(component);
+                builder.resetCursor();
+            } else {
+                //follow the original logic
+                builder.append(component, retention);
+            }
+            return builder;
+        }
+
+        private ComponentBuilder append(String text, ComponentBuilder.FormatRetention retention) {
+            return append(new TextComponent(text), retention);
+        }
+
+        private ComponentBuilder append(BaseComponent[] components, ComponentBuilder.FormatRetention retention) {
+            for (BaseComponent component : components) {
+                append(component, retention);
+            }
+            return builder;
+        }
+        //dump end
     }
 }

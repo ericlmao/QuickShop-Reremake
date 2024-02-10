@@ -176,6 +176,10 @@ public class PlayerListener extends AbstractQSListener {
                 if (plugin.getGameVersion().ordinal() >= GameVersion.v1_20_R1.ordinal()) {
                     e.setCancelled(true);
                 }
+                //Cancel for interacting with sign (editing)
+                if (plugin.getGameVersion().ordinal() >= GameVersion.v1_20_R1.ordinal()) {
+                    e.setCancelled(true);
+                }
             }
         }
     }

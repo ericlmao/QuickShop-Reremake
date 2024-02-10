@@ -70,7 +70,7 @@
   "unknown-owner": "Bilinmiyor",
   "owner-bypass-check": "&eBütün kontroller atlandı. Ticaret başarılı! (Market sahibisin!)",
   "reached-maximum-can-create": "&cZaten maksimum {0}/{1} market oluşturdun!",
-  "reached-maximum-other-can-hold": "&cTarget player has reached the maximum of {0}/{1} shops!",
+  "reached-maximum-other-can-hold": "&cHedef oyuncu {0}/{1} market sayısına ulaştı!",
   "restricted-prices": "&c{0} için sınırlandırılmış fiyat: Min {1}, Maks {2}",
   "no-enough-money-to-keep-shops": "&cMarketlerini açık tutacak kadar paran yoktu! Bütün marketlerin kaldırıldı...",
   "nothing-to-flush": "&aYeni market mesajınız yok.",

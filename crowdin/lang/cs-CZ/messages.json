@@ -35,10 +35,10 @@
   "shop-stock-too-low": "&cV obchodě zbývá pouze {0} {1}!",
   "you-cant-afford-to-buy": "&cToto stojí {0}, ale ty máš jen {1}",
   "select-shop-type-or-cancel": "&aJaký typ obchodu chcete použít? \n {0} {1} {2}",
-  "select-shop-type-or-cancel-selling-button": "&d[Selling]",
-  "select-shop-type-or-cancel-buying-button": "&b[Buying]",
-  "select-shop-type-or-cancel-cancel-button": "&c[Cancel]",
-  "not-a-valid-shop-type": "&cYou can only input Buy/Sell/Cancel, your input was {0}.",
+  "select-shop-type-or-cancel-selling-button": "&d[Prodej]",
+  "select-shop-type-or-cancel-buying-button": "&b[Nákup]",
+  "select-shop-type-or-cancel-cancel-button": "&c[Zrušit]",
+  "not-a-valid-shop-type": "&cMůžete zadat pouze nákup/prodej/zrušit, váš vstup byl {0}.",
   "negative-amount": "&cDerp, nemůžeš obchodovat se zápornými částkami",
   "not-a-number": "&cMůžete zadat pouze číslo, váš vstup byl {0}.",
   "exceeded-maximum": "&cHodnota překročila maximální hodnotu v Javě.",
@@ -70,7 +70,7 @@
   "unknown-owner": "Nezname",
   "owner-bypass-check": "&b▪&8▏ &bSystem &8› &7Prošel všechny kontroly. Obchod byl úspěšný! (Nyní jste vlastníkem obchodu!)",
   "reached-maximum-can-create": "&b▪&8▏ &bSystem &8› &cJiž jste vytvořili maximum {0}/{1} obchodů!",
-  "reached-maximum-other-can-hold": "&cTarget player has reached the maximum of {0}/{1} shops!",
+  "reached-maximum-other-can-hold": "&cCílový hráč dosáhl maxima {0}/{1} obchodů!",
   "restricted-prices": "&b▪&8▏ &bSystem &8› &cOmezená cena za {0}: Min {1}, max {2}",
   "no-enough-money-to-keep-shops": "&b▪&8▏ &bSystem &8› &cNemáte dostatek peněz na udržení svých obchodů! Všechny obchody byly odstraněny...",
   "nothing-to-flush": "&b▪&8▏ &bSystem &8› &7Nemáte žádné nové zprávy o obchodu.",
@@ -248,7 +248,7 @@
     "freeze-hover": "&bPřepnout stav zmrazení obchodu.",
     "toggledisplay": "&fPředmět: &b{0} &7[&d&3Přepni&7]",
     "toggledisplay-hover": "&fPřepne obchodu status ukazovaného předmětu",
-    "staff": "&aStaff amount: &b{0} &e[&d&lModify&e]"
+    "staff": "&aPočet Zaměstnanců: &b{0} &e[&d&lUpravit&e]"
   },
   "tableformat": {
     "full_line": "&r",

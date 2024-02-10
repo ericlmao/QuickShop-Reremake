@@ -252,7 +252,7 @@ public class MavenUpdater implements QuickUpdater {
             @Override
             public void endElement(String uri, String localName, String qName) {
                 switch (qName) {
-                    case "latest":
+                    case "release":
                         latestRelease = tempStr;
                         break;
                     case "lastUpdated":
