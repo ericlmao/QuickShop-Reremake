@@ -42,7 +42,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Trader implements OfflinePlayer {
 
-
     @Nullable
     private String lastKnownName;
     @NotNull
@@ -133,6 +132,12 @@ public class Trader implements OfflinePlayer {
     @Override
     public @Nullable Location getBedSpawnLocation() {
         return offlinePlayer.getBedSpawnLocation();
+    }
+
+    @Nullable
+    @Override
+    public Location getRespawnLocation() {
+        return offlinePlayer.getRespawnLocation();
     }
 
     @Override
@@ -229,6 +234,12 @@ public class Trader implements OfflinePlayer {
     @Override
     public Location getLastDeathLocation() {
         return offlinePlayer.getLastDeathLocation();
+    }
+
+    @Nullable
+    @Override
+    public Location getLocation() {
+        return null;
     }
 
     @Override
