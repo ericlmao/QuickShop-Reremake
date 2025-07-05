@@ -64,12 +64,10 @@ softdepend:
   - Lands
   - GriefPrevention
   - JulySafe
-  - FabledSkyblock
   - OpenInv
   - WorldEdit
   - AdvancedRegionMarket
   - IridiumSkyblock
-  - FabledSkyblock
   - NBTAPI
 
 api-version: 1.15
