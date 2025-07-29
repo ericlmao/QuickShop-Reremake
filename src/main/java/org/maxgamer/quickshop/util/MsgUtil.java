@@ -21,7 +21,6 @@ package org.maxgamer.quickshop.util;
 
 import com.google.common.collect.Maps;
 import lombok.Getter;
-import lv.side.lang.api.LangAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -791,14 +790,6 @@ public class MsgUtil {
     }
 
     public static String getPlayerLocale(Player player) {
-        String lang = LangAPI.getPlayerSelected(player.getName());
-        if (lang == null)
-            lang = LangAPI.getDefaultLang();
-
-        if (lang.equalsIgnoreCase("lv")) {
-            return "es_es";
-        }
-
         return "en_us";
     }
 }

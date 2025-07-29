@@ -94,19 +94,43 @@ public class BungeeQuickChat implements QuickChat {
 
     @Override
     public void send(@NotNull CommandSender receiver, @Nullable QuickComponent component) {
-        if (component == null) {
-            return;
-        }
-        if (component.get() instanceof BaseComponent[]) {
-            receiver.spigot().sendMessage((BaseComponent[]) component.get());
-            return;
-        }
-        if (component.get() instanceof BaseComponent) {
-            receiver.spigot().sendMessage((BaseComponent) component.get());
-            return;
-        }
-        Util.debugLog("Illegal component " + component.get().getClass().getName() + " sending to " + this.getClass().getName() + " processor, trying force sending.");
+        if (component == null) return;
 
+        Object raw = component.get();
+
+        // == handle arrays of components ==
+        if (raw instanceof BaseComponent[]) {
+            BaseComponent[] parts = (BaseComponent[]) raw;
+
+            // 1) to JSON
+            String json = ComponentSerializer.toString(parts);
+            // 2) sanitize invalid reset color
+            json = json.replace("\"color\":\"reset\"", "\"color\":\"white\"");
+            // 3) back to components
+            BaseComponent[] safe = ComponentSerializer.parse(json);
+
+            receiver.spigot().sendMessage(safe);
+            return;
+        }
+
+        // == handle a single component ==
+        if (raw instanceof BaseComponent) {
+            BaseComponent single = (BaseComponent) raw;
+
+            String json = ComponentSerializer.toString(new BaseComponent[]{ single });
+            json = json.replace("\"color\":\"reset\"", "\"color\":\"white\"");
+            BaseComponent[] safe = ComponentSerializer.parse(json);
+
+            receiver.spigot().sendMessage(safe);
+            return;
+        }
+
+        // fallback for anything else
+        Util.debugLog("Illegal component "
+                + raw.getClass().getName()
+                + " sending to "
+                + this.getClass().getName()
+                + " processor, trying force sending.");
     }
 
     @Override
